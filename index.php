@@ -8,7 +8,7 @@
 	<h1>ソートアルゴリズムの一覧</h1>
 	<ul>
 		<li><a href="bubble_sort.php">バブルソート</a></li>
-		<li>コムソート</li>
+		<li><a href="merge_sort.php">マージソート</a></li>
 		<li>選択ソート</li>
 		<li>挿入ソート</li>
 		<li>バブルソート</li>

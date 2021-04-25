@@ -1,16 +1,18 @@
 <!doctype html>
+
+<!doctype html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>バブルソート</title>
+	<title>マージソート</title>
 </head>
 <body>
 	<main>
-		<h1>バブルソート</h1>
+		<h1>マージソート</h1>
 		<a href="index.php">目次に戻る</a>
 		<article>
 			<p>
-				全ての要素に関して、隣接する要素と比較し順序が逆であれば入れ替える。これを要素数-1回繰り返すことでソートを行なう。なおこの繰り返しは、入れ替えが起こらなくなった時点で（それ以降は何度繰り返しても変化が起こらなくなるので）中断することができる。
+				マージソートは、ソートのアルゴリズムで、既に整列してある複数個の列を1個の列にマージする際に、小さいものから先に新しい列に並べれば、新しい列も整列されている、というボトムアップの分割統治法による。大きい列を多数の列に分割し、そのそれぞれをマージする作業は並列化できる。
 			</p>
 			<p>
 				下記のテキストフィールドに数値を入れてください。「ソートする」ボタンをクリックすることで昇順に並べ替えできます。
@@ -45,7 +47,6 @@
 		</section>
 
 <?php
-
 if($_POST["setnull"] == "true"){
 	unset($_POST);
 }
@@ -55,10 +56,11 @@ if(empty($_POST)){
 	foreach ($_POST as $key => $value){
 		$arr[] = (int)$value;
 	}
+	$arrCount = count($arr);
 	$time_start = microtime(true);
-	$data = bubble_sort($arr);
-	$time = substr(microtime(true) - $time_start,0,5);	
-	echo "処理時間:{$time}<br />";
+	$data = mergeSort($arr,0, $arrCount-1);
+	$time = substr(microtime(true) - $time_start,0,5);
+	echo "処理時間:{$time}秒<b<br />";
 	$i = 1;
 	foreach ($data as $key => $value){
 		echo $i.": ".$value."<br />";
@@ -66,23 +68,34 @@ if(empty($_POST)){
 	}			 
 }
 
-function bubble_sort($array)
-{
-    for($i = 0; $i < count($array); $i++)
-    {
-        for($n = 1; $n < count($array); $n++)
-        {
-            if($array[$n-1] > $array[$n])
-            {
-                $temp = $array[$n];
-                $array[$n] = $array[$n-1];
-                $array[$n-1] = $temp;
+function mergeSort(&$list, $first, $last) {
+    if ($first < $last) {
+        $center = intval(($first + $last) / 2);
+        $p      = 0;
+        $j      = 0;
+        $k      = $first;
+        $tmp    = null;
+        mergeSort($list, $first, $center);
+        mergeSort($list, $center + 1, $last);
+        for ($i = $first; $i <= $center; $i++) {
+            $tmp[$p++] = $list[$i];
+        }
+        while ($i <= $last && $j < $p) {
+            if ($tmp[$j] <= $list[$i]) {
+                $list[$k] =  $tmp[$j];
+                $k++;
+                $j++;
+            } else {
+                $list[$k] = $list[$i];
+                $k++;
+                $i++;
             }
         }
+        while ($j < $p) {
+            $list[$k++] = $tmp[$j++];
+        }
     }
-    return $array;
 }
 ?>
 </body>
 </html>
-
