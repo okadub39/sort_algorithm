@@ -1,1 +1,6 @@
-# sort_algorithm
+# ソートのアルゴリズムを再現する
+ソートの種類別にアルゴリズムを作成する。
+
+# 参考サイト
+https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%BC%E3%83%88
+
