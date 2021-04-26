@@ -11,6 +11,7 @@
 		<li><a href="merge_sort.php">マージソート</a></li>
 		<li><a href="quick_sort.php">クイックソート</a></li>
 		<li><a href="shell_sort.php">シェルソート</a></li>
+		<li><a href="insertion_sort.php">選択ソート</a></li>
 	</ul>
 </body>
 </html>
