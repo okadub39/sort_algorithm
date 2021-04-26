@@ -9,9 +9,7 @@
 	<ul>
 		<li><a href="bubble_sort.php">バブルソート</a></li>
 		<li><a href="merge_sort.php">マージソート</a></li>
-		<li>選択ソート</li>
-		<li>挿入ソート</li>
-		<li>バブルソート</li>
+		<li><a href="quick_sort.php">クイックソート</a></li>
 	</ul>
 </body>
 </html>
