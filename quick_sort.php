@@ -1,25 +1,23 @@
 <!doctype html>
-
-<!doctype html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>マージソート</title>
+	<title>クイックソート</title>
 </head>
 <body>
 	<main>
-		<h1>マージソート</h1>
+		<h1>クイックソート</h1>
 		<a href="index.php">目次に戻る</a>
 		<article>
 			<p>
-				マージソートは、ソートのアルゴリズムで、既に整列してある複数個の列を1個の列にマージする際に、小さいものから先に新しい列に並べれば、新しい列も整列されている、というボトムアップの分割統治法による。大きい列を多数の列に分割し、そのそれぞれをマージする作業は並列化できる。
+				n個のデータをソートする際の最良計算量および平均計算量はO{\displaystyle (n\log n)}(n\log n)である。他のソート法と比べて、一般的に最も高速だといわれているが対象のデータの並びやデータの数によっては必ずしも速いわけではなく、最悪の計算量はO{\displaystyle (n^{2})}(n^{2})である。また数々の変種がある。 安定ソートではない。。
 			</p>
 			<p>
 				下記のテキストフィールドに数値を入れてください。「ソートする」ボタンをクリックすることで昇順に並べ替えできます。
 			</p>
 		</article>
 		<section>
-			<form action="merge_sort.php" method="post">
+			<form action="quick_sort.php" method="post">
 				<li>1: <input type="text" name="01" value="<?php echo (int)$_POST['01']; ?>"/></li>
 				<li>2: <input type="text" name="02" value="<?php echo (int)$_POST['02']; ?>"/></li>
 				<li>3: <input type="text" name="03" value="<?php echo (int)$_POST['03']; ?>"/></li>
@@ -31,7 +29,7 @@
 				<li>9: <input type="text" name="09" value="<?php echo (int)$_POST['09']; ?>"/></li>
 			 	<input type="submit" value="ソートする"/>
 			</form>
-			<form action="merge_sort.php" method="post">
+			<form action="quick_sort.php" method="post">
 				<input type="hidden" name="01" value=""/>
 				<input type="hidden" name="02" value=""/>
 				<input type="hidden" name="03" value=""/>
@@ -56,10 +54,10 @@ if(empty($_POST)){
 	foreach ($_POST as $key => $value){
 		$arr[] = (int)$value;
 	}
-	$arrCount = count($arr);
+	$arrCount   = count($arr);
 	$time_start = microtime(true);
-	$data = mergeSort($arr,0, $arrCount-1);
-	$time = substr(microtime(true) - $time_start,0,5);
+	$data = quickSort($arr,0, $arrCount-1);
+	$time = substr(microtime(true) - $time_start,0,5);	
 	echo "処理時間:{$time}秒<br />";
 	$i = 1;
 	foreach ($data as $key => $value){
@@ -67,33 +65,31 @@ if(empty($_POST)){
 		$i++;
 	}			 
 }
-
-function mergeSort(&$list, $first, $last) {
-    if ($first < $last) {
-        $center = intval(($first + $last) / 2);
-        $p      = 0;
-        $j      = 0;
-        $k      = $first;
-        $tmp    = null;
-        mergeSort($list, $first, $center);
-        mergeSort($list, $center + 1, $last);
-        for ($i = $first; $i <= $center; $i++) {
-            $tmp[$p++] = $list[$i];
+function quickSort(&$list, $first, $last) {
+    $firstPointer = $first;
+    $lastPointer  = $last;
+    $centerValue  = $list[intVal(($firstPointer + $lastPointer) / 2)];
+    do {
+        while ($list[$firstPointer] < $centerValue) {
+            $firstPointer++;
         }
-        while ($i <= $last && $j < $p) {
-            if ($tmp[$j] <= $list[$i]) {
-                $list[$k] =  $tmp[$j];
-                $k++;
-                $j++;
-            } else {
-                $list[$k] = $list[$i];
-                $k++;
-                $i++;
-            }
+        while ($list[$lastPointer] > $centerValue) {
+            $lastPointer--;
         }
-        while ($j < $p) {
-            $list[$k++] = $tmp[$j++];
+        if ($firstPointer <= $lastPointer) {
+            $tmp                 = $list[$lastPointer];
+            $list[$lastPointer]  = $list[$firstPointer];
+            $list[$firstPointer] = $tmp;
+            $firstPointer++;
+            $lastPointer--;
         }
+    } while ($firstPointer <= $lastPointer);
+    if ($first < $lastPointer) {
+        quickSort($list, $first, $lastPointer);
+    }
+    if ($firstPointer < $last) {
+        //右側が比較可能時
+        quickSort($list, $firstPointer, $last);
     }
 	return $list;
 }
