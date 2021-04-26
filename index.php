@@ -10,6 +10,7 @@
 		<li><a href="bubble_sort.php">バブルソート</a></li>
 		<li><a href="merge_sort.php">マージソート</a></li>
 		<li><a href="quick_sort.php">クイックソート</a></li>
+		<li><a href="shell_sort.php">シェルソート</a></li>
 	</ul>
 </body>
 </html>
